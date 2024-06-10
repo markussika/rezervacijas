@@ -2,8 +2,8 @@
 
 return [
   "host" => "localhost",
-  "dbname" => "reservations",
+  "dbname" => "hotelmanagement",
   "user" => "root",
-  "password" => "root",
+  "password" => "",
   "charset" => "utf8mb4"
 ];
