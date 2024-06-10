@@ -24,7 +24,7 @@ class Validator {
 
  public static function password($data) {
     // Minimum length requirement
-    $minLength = 8;
+    $minLength = 6;
     
     // Regular expressions for checking password criteria
     $uppercaseRegex = '/[A-Z]/';

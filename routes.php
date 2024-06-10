@@ -4,6 +4,7 @@ return [
   "/" => "controllers/index.php",  
   "/register" => "controllers/register.php",
   "/login" => "controllers/login.php",
-  "/logout" => "controllers/logout.php"
+  "/logout" => "controllers/logout.php",
+  "/create" => "controllers/create.php"
   
 ];
