@@ -1,8 +1,7 @@
 <?php
 
-guest();
 
-// Pieprasīt DB, config, Validator
+// Include necessary files
 require "Validator.php";
 require "Database.php";
 $config = require("config.php");
@@ -10,43 +9,40 @@ $config = require("config.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $db = new Database($config);
 
-  // Validācija datu
-  //  1. e-pasts - burti, @, .lv beate@ckc.lv
-  //  2. parole vismaz 6 string
+  // Data validation
   $errors = [];
 
   if (!Validator::username($_POST["username"])) {
-    $errors["username"] = "Nepareiz lietotājvārda formāts";
+    $errors["username"] = "Invalid username format";
   }
   if (!Validator::password($_POST["password"])) {
-    $errors["password"] = "Parolē ir nepilnības";
+    $errors["password"] = "Password must be at least 6 characters long";
   }
-  // PĀRBAUDĪS, VAI datubāzē ir e-pasts
-  // 
+
+  // Check if username already exists in the database
   $query = "SELECT * FROM users WHERE username = :username";
   $params = [":username" => $_POST["username"]];
-  $result = $db->execute($query, $params)->fetch();
+  $result = $db->execute($query, $params)->fetch(PDO::FETCH_ASSOC);
 
   if ($result) {
-    $errors["username"] = "Konts jau pastāv";
+    $errors["username"] = "Username already exists";
   }
 
   if (empty($errors)) {
-    $query = "INSERT INTO users ( username, password) VALUES ( :username, :password)";
+    $query = "INSERT INTO users (username, password) VALUES (:username, :password)";
     $params = [
       ":username" => $_POST["username"],
       ":password" => password_hash($_POST["password"], PASSWORD_BCRYPT)
     ];
     $db->execute($query, $params);
 
-    $_SESSION["flash"] = "Tu esi veiksmīgi reģistrēts";
+    $_SESSION["flash"] = "You have successfully registered";
     header("Location: /login");
-    die();
+    exit(); // Use exit instead of die for consistency
   }
 }
 
-
-// Ielikt DB
-
+// Set the page title and include the view
 $title = "Register";
 require "views/register.view.php";
+?>

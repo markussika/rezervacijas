@@ -54,7 +54,7 @@
                         <strong>Room Type:</strong> <?php echo htmlspecialchars($room['room_type']); ?><br>
                         <strong>Description:</strong> <?php echo htmlspecialchars($room['description']); ?><br>
                         <strong>Price:</strong> <?php echo htmlspecialchars($room['price'] ? '$' . number_format($room['price'], 2) : 'N/A'); ?><br>
-                        <a href="reserve?room_id=<?php echo $room['room_id']; ?>" class="reserve-link">Reserve Now</a>
+                        <a href="reserve?room_id=<?= htmlspecialchars($room['room_id']) ?>">Reserve Now</a>
                     </div>
                 </div>
             <?php endforeach; ?>

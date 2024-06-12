@@ -62,7 +62,7 @@
             <select id="user_id" name="user_id" required>
                 <?php foreach ($users as $user): ?>
                     <option value="<?php echo htmlspecialchars($user['user_id']); ?>">
-                        <?php echo htmlspecialchars($user['name']); ?>
+                        <?php echo htmlspecialchars($user['username']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
