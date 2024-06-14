@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            padding-top: 60px;
             background-color: #f0f0f0;
         }
         .container {
@@ -43,12 +44,50 @@
         button:hover {
             background-color: #0056b3;
         }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .navbarcol {
+  transition: transform 250ms;
+  color: honeydew;
+}
+.navbarcol:hover {
+  transform: translateX(10px);
+}
+nav {
+  margin-left: 50px;
+  margin-right: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50px;
+  background: gray;
+  border-bottom: 1px solid #000000;
+}
     </style>
 </head>
 <body>
+<?php if (isset($_SESSION["user"])) { 
+        require "views/components/navbar.auth.php";
+    } else {
+        require "views/components/navbar.guest.php";
+    } ?>
+
     <div class="container">
         <h1>Add New Room</h1>
-        <form method="POST" action="" enctype="multipart/form-data">
+        <?php if (isset($_SESSION["admin"])) { ?>
+        <?php if (!empty($error)): ?>
+            <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+        <form method="POST" action="?<?=isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : ''?>" enctype="multipart/form-data">
             <label for="room_number">Room Number:</label>
             <input type="text" id="room_number" name="room_number" required>
 
@@ -66,6 +105,10 @@
 
             <button type="submit">Add Room</button>
         </form>
+        <?php } else { ?>
+           <?php echo "you dont have the facilities for that, big man!"?>
+        <?php } ?>
+
     </div>
 </body>
 </html>

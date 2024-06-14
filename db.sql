@@ -1,8 +1,8 @@
-CREATE DATABASE HotelManagement;
+-- CREATE DATABASE HotelManagement;
 
 USE HotelManagement;
 
-
+/*
 CREATE TABLE rooms (
     room_id INT AUTO_INCREMENT PRIMARY KEY,
     room_number VARCHAR(10) NOT NULL,
@@ -30,22 +30,35 @@ CREATE TABLE pricing (
 );
 
 
-CREATE TABLE customers (
-    customer_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(100),
-    phone_number VARCHAR(20)
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(20)
 );
 
 
 CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
     room_id INT,
-    customer_id INT,
+    user_id INT,
     check_in_date DATE,
     check_out_date DATE,
     total_price DECIMAL(10, 2),
     FOREIGN KEY (room_id) REFERENCES rooms(room_id),
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+*/
+
+-- ALTER TABLE rooms ADD COLUMN photo VARCHAR(255);
+
+-- ALTER TABLE users MODIFY password VARCHAR(255);
+
+-- ALTER TABLE users ADD isAdmin boolean;
+
+SELECT  `user_id`,  `username`,  `password`, 'isadmin' FROM `hotelmanagement`.`users`
+
+
+
+
+

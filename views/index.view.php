@@ -6,9 +6,11 @@
     <title><?php echo htmlspecialchars($title); ?></title>
     <style>
         body {
+            
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            padding-top: 60px;
             background-color: #f0f0f0;
         }
         .container {
@@ -26,21 +28,54 @@
             border-radius: 5px;
         }
         .room img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
+            width: auto;
+            height: 100px;
+            object-fit: contain;
             margin-bottom: 10px;
         }
         .room-details {
-            font-size: 16px;
+            font-size: 14px;
+            margin-left: 10px;
+            display: inline-block;
+            width: 70%;
         }
         .reserve-link {
             color: #007BFF;
             text-decoration: none;
         }
+        .navbarcol {
+  transition: transform 250ms;
+  color: honeydew;
+}
+.navbarcol:hover {
+  transform: translateX(10px);
+}
+nav {
+  margin-left: 50px;
+  margin-right: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50px;
+  background: gray;
+  border-bottom: 1px solid #000000;
+}
     </style>
 </head>
 <body>
+<?php if (isset($_SESSION["user"])) { 
+        require "views/components/navbar.auth.php";
+    } else {
+        require "views/components/navbar.guest.php";
+    } ?>
+
     <div class="container">
         <h1><?php echo htmlspecialchars($title); ?></h1>
         <?php if (!empty($rooms)): ?>
@@ -53,14 +88,22 @@
                         <strong>Room Number:</strong> <?php echo htmlspecialchars($room['room_number']); ?><br>
                         <strong>Room Type:</strong> <?php echo htmlspecialchars($room['room_type']); ?><br>
                         <strong>Description:</strong> <?php echo htmlspecialchars($room['description']); ?><br>
-                        <strong>Price:</strong> <?php echo htmlspecialchars($room['price'] ? '$' . number_format($room['price'], 2) : 'N/A'); ?><br>
-                        <a href="reserve?room_id=<?= htmlspecialchars($room['room_id']) ?>">Reserve Now</a>
-                    </div>
+                        <?php $price = $room['price'] ?? null; ?>
+                        <strong>Price:</strong> <?php echo htmlspecialchars($price ? '$' . number_format($price, 2) : 'N/A'); ?><br>
+                        <?php if (isset($_SESSION["admin"])) { ?>
+                        <form method="POST" action="/delete">
+                            <input type="hidden" name="room_id" value="<?php echo $room['room_id']; ?>">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <?php } ?>
+                    </div>   
                 </div>
+                
             <?php endforeach; ?>
         <?php else: ?>
             <p>No rooms available.</p>
         <?php endif; ?>
+        
     </div>
 </body>
 </html>

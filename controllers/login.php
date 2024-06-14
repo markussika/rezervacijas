@@ -26,11 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (empty($errors)) {
     $_SESSION["user"] = true;
+    $_SESSION["user-id"] = $user["id"];
+    if ($user["isAdmin"]) {
+        $_SESSION["admin"] = true;
+    }
     $_SESSION["username"] = $_POST["username"];
-
     header("Location: /");
     die();
-  }
+}
 }
 
 $title = "Login";
